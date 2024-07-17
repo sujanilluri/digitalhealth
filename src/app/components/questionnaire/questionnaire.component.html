@@ -1,0 +1,23 @@
+<form [formGroup]="questionnaireForm" (ngSubmit)="onSubmit()">
+  <div *ngFor="let question of questionnaireData?.item">
+    <label>{{ question.text }}</label>
+    <div [ngSwitch]="question.type">
+      <ng-container *ngSwitchCase="'boolean'">
+        <label><input type="radio" [formControlName]="'question_' + question.linkId" [value]="true"> Yes</label>
+        <label><input type="radio" [formControlName]="'question_' + question.linkId" [value]="false"> No</label>
+      </ng-container>
+      <ng-container *ngSwitchCase="'choice'">
+        <select [formControlName]="'question_' + question.linkId">
+          <option *ngFor="let option of question.option" [value]="option.valueCoding.code">{{ option.valueCoding.display }}</option>
+        </select>
+      </ng-container>
+      <ng-container *ngSwitchCase="'date'">
+        <input type="date" [formControlName]="'question_' + question.linkId">
+      </ng-container>
+      <ng-container *ngSwitchCase="'string'">
+        <input type="text" [formControlName]="'question_' + question.linkId">
+      </ng-container>
+    </div>
+  </div>
+  <button type="submit">Submit</button>
+</form>
